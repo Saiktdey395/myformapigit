@@ -1,0 +1,830 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "Forms API"
+  description: Registration, Login and User Management
+host: localhost:8082
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+
+  /form/02551Q:
+    post:
+      summary: Quarterly Percentage Tax Return
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Form02551Q'
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            $ref: '#/definitions/Response'
+
+  /form/2000OT:
+    post:
+      summary: Documentary Stamp Tax Return - One Time
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Form02000OT'
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            $ref: '#/definitions/Response'
+
+  /form/01702Q:
+    post:
+      summary: Documentary Stamp Tax Return - One Time
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Form01702Q'
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            $ref: '#/definitions/Response'
+
+  /form/01701Q:
+    post:
+      summary: Quarterly Income Tax Return for Self-Employed, Professionals, Estates, and Trusts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Form01701Q'
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            $ref: '#/definitions/Response'
+
+definitions:
+
+  Form01701Q:
+    type: object
+    properties:
+      return_date:
+        type: string
+        example: "12/31/20"
+      amended_return:
+        type: boolean
+        example: false
+      taxpayer_info:
+        type: object
+        properties:
+          tin:
+            type: string
+            example: "111222333"
+          branch_code:
+            type: string
+            example: "0000"
+          rdo_code:
+            type: string
+            example: "044"
+          tax_payer_type:
+            type: string
+            example: "individual"
+          tax_code:
+            type: string
+            example: "IT"
+          tax_payer_name:
+            type: string
+            example: "Juan Cruz"
+          registered_address:
+            type: string
+            example: "J.P. Laurel Street, San Miguel, Manila 1005"
+          zip_code:
+            type: string
+            example: "1005"
+          date_of_birth:
+            type: string
+            example: "1990-12-31"
+          email:
+            type: string
+            example: "test@gmail.com"
+          citizenship:
+            type: string
+            example: "Filipino"
+          foreign_tax_no:
+            type: string
+          claiming_foreign_tax_credits:
+            type: boolean
+          tax_rate:
+            type: number
+          method_of_deduction:
+            type: string
+      spouse_info:
+        type: object
+        properties:
+          tin:
+            type: string
+            example: "111222333"
+          rdo_code:
+            type: string
+            example: "044"
+          tax_payer_type:
+            type: string
+            example: "IT"
+          tax_code:
+            type: string
+            example: "individual"
+          tax_payer_name:
+            type: string
+            example: "Juan Cruz"
+          citizenship:
+            type: string
+            example: "Juan Cruz"
+          foreign_tax_no:
+            type: string
+            example: "Juan Cruz"
+          claiming_foreign_tax_credits:
+            type: boolean
+          tax_rate:
+            type: number
+          method_of_deduction:
+            type: string
+            example: "cash"
+      tax_payable:
+        type: object
+        properties:
+          tax_payer:
+            type: object
+            properties:
+              tax_due:
+                type: number
+              tax_credits:
+                type: number
+              tax_payable:
+                type: number
+              total_penalties:
+                type: number
+              total_amount_payable:
+                type: number
+          spouse:
+            type: object
+            properties:
+              tax_due:
+                type: number
+              tax_credits:
+                type: number
+              tax_payable:
+                type: number
+              total_penalties:
+                type: number
+              total_amount_payable:
+                type: number
+          aggregate_amount_payable:
+            type: number
+      payment_details:
+        type: object
+        description: "You may Set the property as null if not applicable (e.g. check: null)"
+        properties:
+          cash_or_bank:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          check:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          tax_debit_memo:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          others:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+      computation_of_tax_due:
+        type: object
+        properties:
+          tax_payer:
+            type: object
+            properties:
+              tax_payable:
+                type: number
+              total_amount_payable:
+                type: number
+              graduated_income_tax:
+                type: object
+                properties:
+                  sales_revenues_receipts_and_Fees:
+                    type: number
+                  cost_of_sales_and_services:
+                    type: number
+                  gross_income:
+                    type: number
+                  total_allowable_itemized_deductions:
+                    type: number
+                  optional_standard_deductions:
+                    type: number
+                  net_income_or_loss:
+                    type: number
+                  taxable_income_from_previous_quarters:
+                    type: number
+                  non_operating_income:
+                    type: number
+                  amount_from_general_professional_partnership:
+                    type: number
+                  total_taxable_income:
+                    type: number
+                  tax_due:
+                    type: number
+              tax_credits_and_payments:
+                type: object
+                properties:
+                  prior_year_excess_credits:
+                    type: number
+                  tax_payments_for_previous_quarters:
+                    type: number
+                  creditable_tax_withheld_from_previous_quarter:
+                    type: number
+                  creditable_tax_withheld_per_bir_2307:
+                    type: number
+                  tax_paid_in_return_previously_filed:
+                    type: number
+                  foreign_tax_credits:
+                    type: number
+                  other_tax_credits:
+                    type: number
+                  other_tax_credits_description:
+                    type: string
+                  total_tax_credits:
+                    type: number
+              penalties:
+                type: object
+                $ref: '#/definitions/Penalties'
+          spouse:
+            type: object
+            properties:
+              tax_payable:
+                type: number
+              total_amount_payable:
+                type: number
+              graduated_income_tax:
+                type: object
+                properties:
+                  sales_revenues_receipts_and_Fees:
+                    type: number
+                  cost_of_sales_and_services:
+                    type: number
+                  gross_income:
+                    type: number
+                  total_allowable_itemized_deductions:
+                    type: number
+                  optional_standard_deductions:
+                    type: number
+                  net_income_or_loss:
+                    type: number
+                  taxable_income_from_previous_quarters:
+                    type: number
+                  non_operating_income:
+                    type: number
+                  amount_from_general_professional_partnership:
+                    type: number
+                  total_taxable_income:
+                    type: number
+                  tax_due:
+                    type: number
+              tax_credits_and_payments:
+                type: object
+                properties:
+                  prior_year_excess_credits:
+                    type: number
+                  tax_payments_for_previous_quarters:
+                    type: number
+                  creditable_tax_withheld_from_previous_quarter:
+                    type: number
+                  creditable_tax_withheld_per_bir_2307:
+                    type: number
+                  tax_paid_in_return_previously_filed:
+                    type: number
+                  foreign_tax_credits:
+                    type: number
+                  other_tax_credits:
+                    type: number
+                  other_tax_credits_description:
+                    type: string
+                  total_tax_credits:
+                    type: number
+              penalties:
+                type: object
+                $ref: '#/definitions/Penalties'
+
+  Form01702Q:
+    type: object
+    properties:
+      return_date:
+        type: string
+        example: "12/31/20"
+      amended_return:
+        type: boolean
+        example: false
+      background_info:
+        type: object
+        properties:
+          tin:
+            type: string
+            example: "111222333"
+          branch_code:
+            type: string
+            example: "0000"
+          rdo_code:
+            type: string
+            example: "044"
+          tax_code:
+            type: string
+            example: "IT"
+          registered_name:
+            type: string
+            example: "Juan Company Inc"
+          registered_address:
+            type: string
+            example: "J.P. Laurel Street, San Miguel, Manila 1005"
+          zip_code:
+            type: string
+            example: "1005"
+          contact_no:
+            type: string
+            example: "0123123123123"
+          email:
+            type: string
+            example: "test@gmail.com"
+          method_of_deduction:
+            type: string
+          avail_tax_treaty:
+            type: boolean
+          specify_tax_treaty:
+            type: string
+            example: ""
+      tax_payable:
+        type: object
+        properties:
+          income_tax_due:
+            type: number
+          less_unexpired_excess:
+            type: number
+          income_tax_still_due:
+            type: number
+          add_income_tax_due:
+            type: number
+          aggregate_income_tax_due:
+            type: number
+          less_total_tax_credits:
+            type: number
+          net_tax_payable:
+            type: number
+          total_amount_payable:
+            type: number
+          penalties:
+            type: object
+            $ref: '#/definitions/Penalties'
+      payment_details:
+        type: object
+        description: "You may Set the property as null if not applicable (e.g. check: null)"
+        properties:
+          cash_or_bank:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          check:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          tax_debit_memo:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          others:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+      schedules:
+        type: object
+        properties:
+          schedule_1:
+            type: object
+            properties:
+              exempt:
+                type: object
+                properties:
+                  sales:
+                    type: number
+                  less_cost_of_sales:
+                    type: number
+                  gross_income:
+                    type: number
+                  add_other_income:
+                    type: number
+                  total_gross_income:
+                    type: number
+                  less_deductions:
+                    type: number
+                  taxable_income_this_quarter:
+                    type: number
+                  add_taxable_income_previous_quarters:
+                    type: number
+                  total_taxable_income_to_date:
+                    type: number
+                  applicable_income_tax_rate:
+                    type: number
+                  income_tax_due:
+                    type: number
+                  less_share_of_other_agencies:
+                    type: number
+                  net_income_tax_due:
+                    type: number
+              special:
+                type: object
+                properties:
+                  sales:
+                    type: number
+                  less_cost_of_sales:
+                    type: number
+                  gross_income:
+                    type: number
+                  add_other_income:
+                    type: number
+                  total_gross_income:
+                    type: number
+                  less_deductions:
+                    type: number
+                  taxable_income_this_quarter:
+                    type: number
+                  add_taxable_income_previous_quarters:
+                    type: number
+                  total_taxable_income_to_date:
+                    type: number
+                  applicable_income_tax_rate:
+                    type: number
+                  income_tax_due:
+                    type: number
+                  less_share_of_other_agencies:
+                    type: number
+                  net_income_tax_due:
+                    type: number
+          schedule_2:
+            type: object
+            properties:
+              sales:
+                type: number
+              less_cost_of_sales:
+                type: number
+              gross_income:
+                type: number
+              add_other_income:
+                type: number
+              total_gross_income:
+                type: number
+              less_deductions:
+                type: number
+              taxable_income_this_quarter:
+                type: number
+              add_taxable_income_previous_quarters:
+                type: number
+              total_taxable_income_to_date:
+                type: number
+              applicable_income_tax_rate:
+                type: number
+              income_tax_due_other_than_mct:
+                type: number
+              min_corporate_income_tax:
+                type: number
+              income_tax_due:
+                type: number
+          schedule_3:
+            type: object
+            properties:
+              gross_income_1st_quarter:
+                type: number
+              gross_income_2nd_quarter:
+                type: number
+              gross_income_3rd_quarter:
+                type: number
+              total_gross_income:
+                type: number
+              minimum_corporate_income_tax:
+                type: number
+          schedule_4:
+            type: object
+            properties:
+              prior_year_excess_credits:
+                type: number
+              tax_payments_for_previous_quarters:
+                type: number
+              mcit_payments_withheld:
+                type: number
+              creditable_tax_withheld_for_prev_quarters:
+                type: number
+              creditable_tax_withheld_per_bir_2307:
+                type: number
+              tax_paid_in_return:
+                type: number
+              total_tax_credits:
+                type: number
+
+  Form02000OT:
+    title: Form 2000OT
+    type: object
+    properties:
+      transaction_date:
+        type: string
+        example: "12/31/20"
+      amended_return:
+        type: boolean
+        example: false
+      taxpayer_info:
+        type: object
+        properties:
+          tin:
+            type: string
+            example: "111222333"
+          branch_code:
+            type: string
+            example: "0000"
+          rdo_code:
+            type: string
+            example: "044"
+          tax_payer_type:
+            type: string
+            example: "individual"
+          tax_code:
+            type: string
+            example: "DO"
+          tax_payer_name:
+            type: string
+            example: "Juan Cruz"
+          registered_address:
+            type: string
+            example: "J.P. Laurel Street, San Miguel, Manila 1005"
+          zip_code:
+            type: string
+            example: "1005"
+          date_of_birth:
+            type: string
+            example: "1990-12-31"
+          contact_no:
+            type: string
+            example: "0123123123123"
+          email:
+            type: string
+            example: "test@gmail.com"
+          other_party:
+            type: string
+            example: "seller"
+          other_party_name:
+            type: string
+            example: "Jose Rizal"
+          other_party_tin:
+            type: string
+            example: "222333444"
+          nature_of_transaction:
+            type: string
+            example: ""
+          location_of_property:
+            type: string
+            example: ""
+      payment_details:
+        type: object
+        description: "You may Set the property as null if not applicable (e.g. check: null)"
+        properties:
+          cash_or_bank:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          check:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          tax_debit_memo:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          others:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+      computation_of_tax:
+        type: object
+        properties:
+          taxable_base_shares_of_stocks:
+            type: number
+          taxable_base_real_property:
+            type: number
+          tax_rate:
+            type: number
+          tax_due:
+            type: number
+          less_tax_paid_in_return:
+            type: number
+          tax_still_due:
+            type: number
+          total_amount_payable:
+            type: number
+          penalties:
+            type: object
+            $ref: '#/definitions/Penalties'
+      schedules:
+        type: object
+        properties:
+          real_property:
+            type: array
+            items:
+              type: object
+              properties:
+                oct_tct_cct:
+                  type: string
+                tax_declaration_no:
+                  type: string
+                location:
+                  type: string
+                lot_improvement:
+                  type: string
+                classification:
+                  type: string
+                area_sqm:
+                  type: number
+                fair_market_value_per_td:
+                  type: number
+                fair_market_value_per_bir:
+                  type: number
+                fair_market_value:
+                  type: number
+          shares_of_stock:
+            type: array
+            items:
+              type: object
+              properties:
+                name_of_corporate_stock:
+                  type: string
+                number_of_shares_sold:
+                  type: number
+                stock_certificate_number:
+                  type: string
+                par_value:
+                  type: number
+                dst_paid_upon_original_issue:
+                  type: string
+          determination_of_taxable_base:
+            type: object
+            properties:
+              gross_selling_price:
+                type: number
+              total_fair_market_value:
+                type: number
+              others:
+                type: number
+              taxable_base:
+                type: number
+
+  Form02551Q:
+    title: Form 02551Q
+    type: object
+    properties:
+      return_date:
+        type: string
+        example: "12/31/20"
+      amended_return:
+        type: boolean
+        example: false
+      taxpayer_info:
+        type: object
+        properties:
+          tin:
+            type: string
+            example: "111222333"
+          branch_code:
+            type: string
+            example: "0000"
+          rdo_code:
+            type: string
+            example: "044"
+          tax_code:
+            type: string
+            example: "PT"
+          taxpayer_name:
+            type: string
+            example: "Juan Cruz"
+          registered_address:
+            type: string
+            example: "J.P. Laurel Street, San Miguel, Manila 1005"
+          zip_code:
+            type: string
+            example: "1005"
+          contact_no:
+            type: string
+            example: "0123123123123"
+          email:
+            type: string
+            example: "test@gmail.com"
+          avail_tax_treaty:
+            type: boolean
+            example: false
+          specify_tax_treaty:
+            type: string
+            example: ""
+      tax_payable:
+        type: object
+        properties:
+          total_tax_due:
+            type: number
+          less_creditable_percentage:
+            type: number
+          less_paid_in_return:
+            type: number
+          less_other_tax_credit:
+            type: number
+          total_tax_credits:
+            type: number
+          tax_still_payable:
+            type: number
+          penalties:
+            type: object
+            $ref: '#/definitions/Penalties'
+          total_amount_payable:
+            type: number
+      payment_details:
+        type: object
+        description: "You may Set the property as null if not applicable (e.g. check: null)"
+        properties:
+          cash_or_bank:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          check:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          tax_debit_memo:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+          others:
+            type: object
+            $ref: '#/definitions/PaymentDetail'
+      schedules:
+        type: array
+        items:
+          properties:
+            tax_code:
+              type: string
+            taxable_amount:
+              type: number
+            tax_rate:
+              type: number
+            tax_due:
+              type: number
+
+  PaymentDetail:
+    type: object
+    properties:
+      bank_or_agency_name:
+        type: string
+      number:
+        type: string
+      date:
+        type: string
+        example: "2020-12-31"
+      amount:
+        type: number
+
+  Penalties:
+    type: object
+    properties:
+      surcharge:
+        type: number
+      interest:
+        type: number
+      compromise:
+        type: number
+      total_penalties:
+        type: number
+
+  Response:
+    title: Form Response
+    type: object
+    properties:
+      ID:
+        type: string
+      Source:
+        type: number
+      TIN:
+        type: string
+      BranchCode:
+        type: string
+      RdoCode:
+        type: string
+      TaxTypeCode:
+        type: string
+      FormTypeCode:
+        type: string
+      ReturnDate:
+        type: string
+        format: date
+      Series:
+        type: number
+      TaxAmount:
+        type: number
+      FRN:
+        type: string
+      JSONPayload:
+        type: string
+      DateSubmission:
+        type: string
+        format: date-time
